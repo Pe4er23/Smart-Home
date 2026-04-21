@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Device;
 use Illuminate\Http\Request;
+use PhpMqtt\Client\Facades\MQTT; // ДОБАВЛЯЕМ ЭТУ СТРОКУ
 
 class DeviceController extends Controller
 {
@@ -13,20 +14,18 @@ class DeviceController extends Controller
         return response()->json($devices);
     }
 
-    // НОВЫЙ МЕТОД ДЛЯ ПЕРЕКЛЮЧЕНИЯ СТАТУСА
     public function toggle($id)
     {
-        $device = Device::findOrFail($id); // Ищем устройство по ID
+        $device = Device::findOrFail($id);
         
-        // Меняем статус только у реле (ламп/розеток)
         if ($device->type === 'relay') {
             $device->status = ($device->status === 'on') ? 'off' : 'on';
             $device->save();
             
-            // ПРИМЕЧАНИЕ ДЛЯ ДИПЛОМА: Позже именно здесь мы добавим 
-            // код для отправки реального сигнала по MQTT на железку!
+            // МАГИЯ ЗДЕСЬ: Отправляем новый статус в топик устройства
+            MQTT::publish($device->mqtt_topic, $device->status);
         }
         
-        return response()->json($device); // Возвращаем обновленное устройство
+        return response()->json($device);
     }
 }
