@@ -27,3 +27,23 @@
   margin-top: 0;
   color: #333;
 }
+
+.toggle-btn {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  color:white;
+}
+
+.toggle-btn.on {
+  background-color: #4CAF50;
+}
+
+.toggle-btn.off {
+  background-color: #f44336;
+}
