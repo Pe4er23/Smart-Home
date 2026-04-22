@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Device; // Обязательно подключаем нашу модель!
+use App\Models\Device;
 
 class DeviceSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class DeviceSeeder extends Seeder
      */
     public function run(): void
     {
-        // Создаем Умную лампу
+        // Создаем Умную лампу на кухне
         Device::create([
             'name' => 'Лампа на кухні',
             'type' => 'relay',
@@ -20,9 +20,9 @@ class DeviceSeeder extends Seeder
             'status' => 'off',
         ]);
 
-        // Создаем Датчик температуры
+        // Создаем Датчик температуры в гостиной
         Device::create([
-            'name' => 'Датчик температури в вітальні',
+            'name' => 'Датчик температури у вітальні',
             'type' => 'sensor',
             'mqtt_topic' => 'home/livingroom/temp',
             'status' => '22.5',
