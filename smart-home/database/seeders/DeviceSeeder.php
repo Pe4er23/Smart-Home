@@ -14,7 +14,7 @@ class DeviceSeeder extends Seeder
     {
         // Создаем Умную лампу
         Device::create([
-            'name' => 'Лампа на кухне',
+            'name' => 'Лампа на кухні',
             'type' => 'relay',
             'mqtt_topic' => 'home/kitchen/lamp',
             'status' => 'off',
@@ -22,7 +22,7 @@ class DeviceSeeder extends Seeder
 
         // Создаем Датчик температуры
         Device::create([
-            'name' => 'Датчик температуры (Зал)',
+            'name' => 'Датчик температури в вітальні',
             'type' => 'sensor',
             'mqtt_topic' => 'home/livingroom/temp',
             'status' => '22.5',
