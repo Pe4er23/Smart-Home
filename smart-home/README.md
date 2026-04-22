@@ -16,3 +16,8 @@ php artisan serve
 ```bash
 .\mosquitto_sub.exe -h localhost -t "home/kitchen/lamp"
 ```
+
+## Start WebSocket
+```bash
+php artisan reverb:start
+```
