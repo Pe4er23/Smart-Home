@@ -20,4 +20,8 @@ php artisan serve
 ## Start WebSocket
 ```bash
 php artisan reverb:start
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> c693d1b3f74e455ba2659a963eb070c50d72959f
