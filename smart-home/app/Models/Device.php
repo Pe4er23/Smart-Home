@@ -13,4 +13,8 @@ class Device extends Model
         'mqtt_topic',
         'status',
     ];
+    public function logs()
+    {
+        return $this->hasMany(SensorLog::class);
+    }
 }

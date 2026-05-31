@@ -8,3 +8,5 @@ use App\Http\Controllers\DeviceController;
 Route::get('/devices', [DeviceController::class, 'index']);
 // НОВЫЙ МАРШРУТ
 Route::post('/devices/{id}/toggle', [DeviceController::class, 'toggle']);
+Route::get('/devices/{id}/history', [App\Http\Controllers\DeviceController::class, 'history']);
+Route::post('/devices/{id}/state', [App\Http\Controllers\DeviceController::class, 'updateState']);

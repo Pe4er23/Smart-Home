@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use PhpMqtt\Client\Facades\MQTT;
 use App\Models\Device;
+use App\Models\SensorLog;
 use App\Events\DeviceUpdated;
 
 class MqttListener extends Command
@@ -20,7 +21,7 @@ class MqttListener extends Command
         $mqtt = MQTT::connection();
 
         // 2. Вызываем subscribe у объекта подключения
-        $mqtt->subscribe('home/livingroom/temp', function (string $topic, string $message) {
+        $mqtt->subscribe('home/#', function (string $topic, string $message) {
             
             $this->info("Отримано дані: [$topic] -> $message");
 
@@ -29,6 +30,12 @@ class MqttListener extends Command
             if ($device) {
                 $device->status = $message;
                 $device->save();
+
+                // Запись в историю
+                SensorLog::create([
+                    'device_id' => $device->id,
+                    'value' => $message,
+                ]);
 
                 DeviceUpdated::dispatch($device);
             }

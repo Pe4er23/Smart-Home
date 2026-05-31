@@ -1,0 +1,15 @@
+** Mosquitto location
+
+cd D:\Mosquitto
+
+** Start local lamp
+
+.\mosquitto_sub.exe -h localhost -t "home/kitchen/lamp
+
+** Change lamp status
+
+.\mosquitto_pub.exe -h localhost -t "home/kitchen/lamp" -m "on"
+
+** Change temperature
+
+.\mosquitto_pub.exe -h localhost -t "home/livingroom/temp" -m "26.8"
