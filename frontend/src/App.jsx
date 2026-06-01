@@ -88,11 +88,18 @@ function App() {
     }, 300);
   };
 
-  // Загальний стиль для нових кнопок управління (щоб код був чистішим)
-  const controlBtnStyle = {
-    padding: '8px 16px', backgroundColor: '#3b82f6', color: '#fff',
-    border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '14px'
+  let sliderTimeout;
+  const handleSliderChange = (id, value) => {
+    // 1. Оптимистичное обновление: мгновенно двигаем ползунок в интерфейсе
+    setDevices(prev => prev.map(dev => dev.id === id ? { ...dev, status: value.toString() } : dev));
+
+    // 2. Дебаунс: отправляем реальную команду на сервер только когда пользователь остановил ползунок
+    clearTimeout(sliderTimeout);
+    sliderTimeout = setTimeout(() => {
+      updateDeviceState(id, value);
+    }, 300);
   };
+
 
   // ФУНКЦІЯ-МАРШРУТИЗАТОР: Визначає, який інтерфейс малювати залежно від типу пристрою
   const renderDeviceControl = (device) => {
@@ -115,7 +122,7 @@ function App() {
                         <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '10px' }}>
                             {/* Кнопки Вкл/Вимк */}
                             <button 
-                                onClick={() => updateDeviceState(device.id, '#ffffff')} // Вмикаємо на білий за замовчуванням
+                                onClick={() => updateDeviceState(device.id, '#ffffff')}
                                 className={`control-btn led-on ${isLedOff ? '' : 'active-cmd'}`}
                                 disabled={!isLedOff}
                                 style={{fontSize: '12px'}}
@@ -123,7 +130,7 @@ function App() {
                                 Увімкн.
                             </button>
                             <button 
-                                onClick={() => updateDeviceState(device.id, 'off')} // Відправляємо 'off' (бэкенд зрозуміє)
+                                onClick={() => updateDeviceState(device.id, 'off')}
                                 className={`control-btn led-off ${isLedOff ? 'active-cmd' : ''}`}
                                 disabled={isLedOff}
                                 style={{fontSize: '12px'}}
@@ -148,7 +155,7 @@ function App() {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '15px', marginTop: '10px' }}>
                         <button onClick={() => updateDeviceState(device.id, currentTemp - 1)} className="control-btn">-</button>
-                        <span style={{ fontSize: '22px', fontWeight: 'bold', color: '#333' }}>{currentTemp}°C</span>
+                        <span style={{ fontSize: '22px', fontWeight: 'bold', color: '#dadada' }}>{currentTemp}°C</span>
                         <button onClick={() => updateDeviceState(device.id, currentTemp + 1)} className="control-btn">+</button>
                     </div>
                 ); }
@@ -161,19 +168,18 @@ function App() {
 
                 return (
                     <div style={{ width: '100%', textAlign: 'center', marginTop: '5px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#666', padding: '0 5px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', padding: '0 5px' }}>
                             <span>Закрито</span>
                             <span>Відкрито ({blindsPos}%)</span>
                         </div>
-                        
-                        {/* Слайдер: 0...100 */}
+
                         <input 
                             type="range" 
                             min="0" 
                             max="100" 
                             value={blindsPos}
                             // Коли затискаємо і крутимо ползунок (onChange), ми просто змінюємо візуал
-                            onChange={(e) => updateDeviceState(device.id, e.target.value)} // Треба дебаунс, але поки так
+                            onChange={(e) => handleSliderChange(device.id, e.target.value)} // Треба дебаунс, але поки так
                             className="blinds-slider"
                         />
                         
@@ -184,7 +190,7 @@ function App() {
                                 className={`control-btn ${isFullyOpen ? 'active-cmd' : ''}`}
                                 // Кнопка неклікабельна, якщо штора вже повністю відкрита
                                 disabled={isFullyOpen}
-                                style={{backgroundColor: '#10b981'}}
+                                style={{backgroundColor: '#10ad79'}}
                             >
                                 Відкрити
                             </button>
@@ -195,7 +201,7 @@ function App() {
                                 className={`control-btn ${isFullyClosed ? 'active-cmd' : ''}`}
                                 // Кнопка неклікабельна, якщо штора вже повністю закрита
                                 disabled={isFullyClosed}
-                                style={{backgroundColor: '#ef4444'}}
+                                style={{backgroundColor: '#d43f3f'}}
                             >
                                 Закрити
                             </button>
@@ -239,8 +245,8 @@ function App() {
                 
                 return (
                     <div style={{ width: '100%', textAlign: 'center', marginTop: '10px' }}>
-                        <p style={{ fontSize: '16px', color: '#4b5563', fontWeight: '500', marginBottom: '10px', backgroundColor: '#f3f4f6', padding: '5px', borderRadius: '6px' }}>
-                            Поточний стан: <span style={{color: isCleaning ? '#10b981' : '#8b5cf6'}}>{isCleaning ? 'Прибирає' : 'На базі'}</span>
+                        <p style={{ fontSize: '16px', color: '#a9bedb', fontWeight: '500', marginBottom: '10px', backgroundColor: '#3b3b3b', padding: '5px', borderRadius: '6px' }}>
+                            Поточний стан: <span style={{color: isCleaning ? '#11e49d' : '#976bfd'}}>{isCleaning ? 'Прибирає' : 'На базі'}</span>
                         </p>
                         
                         <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
@@ -249,7 +255,7 @@ function App() {
                                 className={`control-btn ${isCleaning ? 'active-cmd' : ''}`}
                                 // Не можна відправити старт, якщо він уже прибирає
                                 disabled={isCleaning}
-                                style={{backgroundColor: '#10b981'}}
+                                style={{backgroundColor: '#10ad79'}}
                             >
                                 ▶ Старт
                             </button>
@@ -258,7 +264,7 @@ function App() {
                                 className={`control-btn ${isDocked ? 'active-cmd' : ''}`}
                                 // Не можна відправити на базу, якщо він уже там
                                 disabled={isDocked}
-                                style={{backgroundColor: '#8b5cf6'}}
+                                style={{backgroundColor: '#976bfd'}}
                             >
                                 🏠 На базу
                             </button>
@@ -278,7 +284,7 @@ function App() {
             case 'sensor':
             default:
                 return (
-                    <p style={{ fontSize: '18px', color: '#333', margin: '10px 0' }}>
+                    <p style={{ fontSize: '18px', color: '#aaaaaa', margin: '10px 0' }}>
                         <strong>Поточний показник:</strong> <span style={{ color: '#3b82f6', fontWeight: 'bold' }}>{device.status}°C</span>
                     </p>
                 );

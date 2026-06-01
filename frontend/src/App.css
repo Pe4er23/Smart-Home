@@ -1,98 +1,278 @@
+:root{
+  --primary-color: #3b82f6;
+  --secondary-color: #1a2422;
+  --text-color: #c8c3bc;
+  --card-bg: #181a1b;
+  --card-border: #414141;
+  --body-bg: #1a2422;
+}
 
-body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
-.header { text-align: center; margin-bottom: 30px; }
-.header h1 { margin: 0; color: #2c3e50; font-size: 28px; }
-.header p { color: #7f8c8d; margin: 5px 0 0; }
-.devices-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
-.device-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; border: 1px solid #eaeaea; display: flex; flex-direction: column; align-items: center; justify-content: space-between; min-height: 200px; }
-.device-card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
-.device-card h3 { margin: 0 0 5px 0; color: #2c3e50; font-size: 18px; text-align: center; width: 100%; }
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--body-bg);
+  margin: 0;
+  padding: 20px;
+  color: #c8c3bc;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+
+  h1 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 28px;
+  }
+
+  p {
+    color: #7f8c8d;
+    margin: 5px 0 0;
+  }
+}
+
+.devices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.device-card {
+  background: #181a1b;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #525252;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 200px;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  h3 {
+    margin: 0 0 5px 0;
+    color: #aec2d3;
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+  }
+}
 
 /* Універсальні кнопки управління */
-.control-btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; background-color: #3b82f6; color: white; }
-.control-btn:hover:not(:disabled) { background-color: #2563eb; transform: translateY(-1px); }
-.control-btn:active:not(:disabled) { transform: translateY(0); }
-.control-btn:disabled { background-color: #d1d5db; color: #9ca3af; cursor: not-allowed; opacity: 0.8; }
+.control-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  background-color: #3b82f6;
 
-/* Спеціальний клас для активної команди (наприклад, "На базі") */
-.control-btn.active-cmd { background-color: #6b7280; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
-.control-btn.active-cmd:disabled { background-color: #4b5563; color: #e5e7eb; opacity: 1; }
+  &:hover:not(:disabled) {
+    background-color: #2563eb;
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background-color: #d1d5db;
+    color: #3a3a3a;
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+
+  .active-cmd {
+    background-color: #6b7280;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &:disabled {
+      background-color: #4b5563;
+      color: #e5e7eb;
+      opacity: 1;
+    }
+  }
+}
 
 /* Кнопки Вкл/Выкл (Relay) */
-.toggle-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: all 0.3s; color: white; margin-top: auto; }
-.toggle-btn.on { background-color: #22c55e; }
-.toggle-btn.on:hover { background-color: #16a34a; }
-.toggle-btn.off { background-color: #ef4444; }
-.toggle-btn.off:hover { background-color: #dc2626; }
+.toggle-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s;
+  color: white;
+  margin-top: auto;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &.on {
+    background-color: #1ebb57;
+
+    &:hover {
+      background-color: #159745;
+    }
+  }
+
+  &.off {
+    background-color: #ad1616;
+
+    &:hover {
+      background-color: #851010;
+    }
+  }
+}
+
+
 
 /* Слайдер штор (Blinds) */
-.blinds-slider { width: 100%; -webkit-appearance: none; appearance: none; height: 8px; background: #e5e7eb; border-radius: 5px; outline: none; margin: 15px 0; cursor: pointer; }
-.blinds-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; background: #3b82f6; border-radius: 50%; cursor: pointer; border: 3px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: background 0.2s; }
-.blinds-slider::-webkit-slider-thumb:hover { background: #2563eb; }
+.blinds-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 5px;
+  outline: none;
+  margin: 15px 0;
+  cursor: pointer;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    background: #3b82f6;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background 0.2s;
+
+    &:hover {
+      background: #2563eb;
+    }
+  }
+}
 
 /* Перемикач для дверей (Lock/Slider) */
-.lock-slider-container { width: 100px; height: 40px; background-color: #e5e7eb; border-radius: 20px; position: relative; cursor: pointer; transition: background-color 0.3s; overflow: hidden; border: 2px solid #eaeaea; margin-top: 10px;}
-.lock-slider-container.unlocked { background-color: #d1fae5; border-color: #a7f3d0; }
-.lock-slider-container.locked { background-color: #fee2e2; border-color: #fecaca; }
-.lock-handle { width: 34px; height: 34px; background-color: white; border-radius: 50%; position: absolute; top: 1px; left: 1px; transition: left 0.3s, box-shadow 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 18px;}
-.unlocked .lock-handle { left: 61px; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2); }
-.locked .lock-handle { left: 1px; box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2); }
+.lock-slider-container {
+  width: 100px;
+  height: 40px;
+  background-color: #e5e7eb;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  overflow: hidden;
+  border: 2px solid #eaeaea;
+  margin-top: 10px;
+
+  &.unlocked {
+    background-color: #084a30;
+    border-color: #0f7947;
+  }
+
+  &.locked {
+    background-color: #5f1212;
+    border-color: #8f1a1a;
+  }
+}
+
+
+.lock-handle {
+  width: 34px;
+  height: 34px;
+  background-color: var(--body-bg);
+  border-radius: 50%;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  transition: left 0.3s, box-shadow 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.unlocked .lock-handle {
+  left: 61px;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+}
+
+.locked .lock-handle {
+  left: 1px;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+}
 
 /* Додаткові стилі для LED */
-.led-on { background-color: #22c55e !important; }
-.led-off { background-color: #6b7280 !important; }
+.led-on {
+  background-color: #22c55e !important;
+}
+
+.led-off {
+  background-color: #6b7280 !important;
+}
 
 .dashboard {
   padding: 2rem;
   font-family: Arial, sans-serif;
 }
 
-.devices-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-  margin-top: 4rem;
-}
 
-.device-card {
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: translateY(-5px);
-  }
-  
-  & h3 {
-    margin-top: 0;
-    color: #333;
-  }
-}
-
-.toggle-btn {
-  margin-top: 10px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
+/* Перемикач для дверей в стиле iOS (Lock/Toggle) */
+.ios-toggle {
+  width: 65px;
+  height: 36px;
+  background-color: #181a1b; /* Темный фон для заблокировано */
+  border-radius: 36px;
+  position: relative;
   cursor: pointer;
   transition: background-color 0.3s;
-  width: 100%;
-  color:white;
-  &:active {
-    background-color: #2980b9; /* Затемняем цвет */
-    transform: scale(0.95);    /* Слегка уменьшаем кнопку */
-    box-shadow: inset 0 3px 5px rgba(0,0,0,0.2); /* Эффект вдавленности */
-  }
+  border: 2px solid #414141;
+  margin-top: 15px;
+  padding: 0;
 }
 
-.toggle-btn.on {
-  background-color: #4CAF50;
+.ios-toggle.unlocked {
+  background-color: #1ebb57; /* Зеленый для разблокировано */
+  border-color: #1ebb57;
 }
 
-.toggle-btn.off {
-  background-color: #f44336;
+.ios-toggle-handle {
+  width: 28px;
+  height: 28px;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* Двигаем белый кружок вправо, если открыто */
+.ios-toggle.unlocked .ios-toggle-handle {
+  transform: translateX(29px); 
 }
