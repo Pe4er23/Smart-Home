@@ -180,9 +180,9 @@ function App() {
   const renderThermostat = (device) => {
     const currentTemp = Number.parseInt(device.status) || 22;
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '15px', marginTop: '10px' }}>
+      <div className="thermostat-container">
         <button onClick={() => updateDeviceState(device.id, currentTemp - 1)} className="control-btn">-</button>
-        <span style={{ fontSize: '22px', fontWeight: 'bold', color: '#dadada' }}>{currentTemp}°C</span>
+        <span className="thermostat-temp">{currentTemp}°C</span>
         <button onClick={() => updateDeviceState(device.id, currentTemp + 1)} className="control-btn">+</button>
       </div>
     );
@@ -235,8 +235,8 @@ function App() {
   const renderLock = (device) => {
     const isLocked = device.status === 'locked';
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
-        <p style={{ margin: '0 0 5px 0', fontSize: '14px' }}>Статус: {isLocked ? 'Заблоковано' : 'Розблоковано'}</p>
+      <div className="lock-container">
+        <p className="lock-status">Статус: {isLocked ? 'Заблоковано' : 'Розблоковано'}</p>
         <button
           type="button"
           className={`lock-slider-container ${isLocked ? 'locked' : 'unlocked'}`}
@@ -264,25 +264,23 @@ function App() {
     const isDocked = device.status === 'dock';
 
     return (
-      <div style={{ width: '100%', textAlign: 'center', marginTop: '10px' }}>
-        <p style={{ fontSize: '16px', color: '#a9bedb', fontWeight: '500', marginBottom: '10px', backgroundColor: '#3b3b3b', padding: '5px', borderRadius: '6px' }}>
-          Поточний стан: <span style={{ color: isCleaning ? '#11e49d' : '#976bfd' }}>{isCleaning ? 'Прибирає' : 'На базі'}</span>
+      <div className="vacuum-container">
+        <p className="vacuum-status">
+          Поточний стан: <span className={isCleaning ? 'vacuum-cleaning' : 'vacuum-docked'}>{isCleaning ? 'Прибирає' : 'На базі'}</span>
         </p>
 
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+        <div className="vacuum-controls">
           <button
             onClick={() => updateDeviceState(device.id, 'start')}
-            className={`control-btn ${isCleaning ? 'active-cmd' : ''}`}
+            className={`control-btn vacuum-btn-start ${isCleaning ? 'active-cmd' : ''}`}
             disabled={isCleaning}
-            style={{ backgroundColor: '#10ad79' }}
           >
             ▶ Старт
           </button>
           <button
             onClick={() => updateDeviceState(device.id, 'dock')}
-            className={`control-btn ${isDocked ? 'active-cmd' : ''}`}
+            className={`control-btn vacuum-btn-dock ${isDocked ? 'active-cmd' : ''}`}
             disabled={isDocked}
-            style={{ backgroundColor: '#976bfd' }}
           >
             🏠 На базу
           </button>
@@ -294,15 +292,15 @@ function App() {
   const renderSecuritySensor = (device) => {
     const isTriggered = device.status === 'triggered';
     return (
-      <p style={{ fontSize: '18px', color: isTriggered ? '#ef4444' : '#22c55e', fontWeight: 'bold', margin: '15px 0' }}>
+      <p className={`security-sensor-status ${isTriggered ? 'alert' : 'safe'}`}>
         {isTriggered ? '🚨 ТРИВОГА! Рух' : '✅ Спокійно'}
       </p>
     );
   };
 
   const renderSensorDefault = (device) => (
-    <p style={{ fontSize: '18px', color: '#aaaaaa', margin: '10px 0' }}>
-      <strong>Поточний показник:</strong> <span style={{ color: '#3b82f6', fontWeight: 'bold' }}>{device.status}°C</span>
+    <p className="default-sensor">
+      <strong>Поточний показник:</strong> <span className="default-sensor-value">{device.status}°C</span>
     </p>
   );
 
@@ -329,18 +327,18 @@ function App() {
     }
   };
 
-  if (loading) return <div style={{ color: '#fff', textAlign: 'center', marginTop: '50px' }}>Завантаження...</div>
+  if (loading) return <div className="loading-screen">Завантаження...</div>
 
   // МАЛЮЄМО ЕКРАН ВХОДУ, ЯКЩО НЕМАЄ ТОКЕНА
   if (!token) {
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', width: '100%' }}>
-            <form onSubmit={handleLogin} style={{ background: '#181a1b', padding: '40px', borderRadius: '12px', border: '1px solid #414141', display: 'flex', flexDirection: 'column', gap: '20px', width: '100%', maxWidth: '350px', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}>
-                <h2 style={{ color: '#aec2d3', textAlign: 'center', margin: 0 }}>Вхід у Smart Home</h2>
-                <p style={{ color: '#888', textAlign: 'center', margin: '-10px 0 10px 0', fontSize: '14px' }}>Введіть дані доступу</p>
-                <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} style={{ padding: '14px', borderRadius: '8px', border: '1px solid #414141', background: '#1a2422', color: '#fff', fontSize: '16px' }} required />
-                <input type="password" placeholder="Пароль" value={password} onChange={e => setPassword(e.target.value)} style={{ padding: '14px', borderRadius: '8px', border: '1px solid #414141', background: '#1a2422', color: '#fff', fontSize: '16px' }} required />
-                <button type="submit" className="control-btn" style={{ background: '#3b82f6', fontSize: '16px', padding: '14px', fontWeight: 'bold' }}>Увійти</button>
+        <div className="login-container">
+            <form onSubmit={handleLogin} className="login-form">
+                <h2 className="login-title">Вхід у Smart Home</h2>
+                <p className="login-subtitle">Введіть дані доступу</p>
+                <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} className="login-input" required />
+                <input type="password" placeholder="Пароль" value={password} onChange={e => setPassword(e.target.value)} className="login-input" required />
+                <button type="submit" className="control-btn login-btn-submit">Увійти</button>
             </form>
         </div>
     );
@@ -350,19 +348,19 @@ function App() {
   return (
     <div className="dashboard">
       {/* Шапка з кнопкою виходу */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-        <h1 style={{ margin: 0, color: '#aec2d3' }}>Smart Home</h1>
+      <div className="dashboard-header">
+        <h1 className="dashboard-title">Smart Home</h1>
         <button className="logout-btn" onClick={handleLogout}>
           Вийти
         </button>
       </div>
       
       {/* Вкладки */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '30px' }}>
-        <button onClick={() => setActiveTab('devices')} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer', background: activeTab === 'devices' ? '#3b82f6' : '#181a1b', color: '#fff', border: '1px solid #414141', borderRadius: '8px' }}>
+      <div className="tabs-container">
+        <button onClick={() => setActiveTab('devices')} className={`tab-btn ${activeTab === 'devices' ? 'active' : 'inactive'}`}>
           Пристрої
         </button>
-        <button onClick={() => setActiveTab('scenarios')} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer', background: activeTab === 'scenarios' ? '#3b82f6' : '#181a1b', color: '#fff', border: '1px solid #414141', borderRadius: '8px' }}>
+        <button onClick={() => setActiveTab('scenarios')} className={`tab-btn ${activeTab === 'scenarios' ? 'active' : 'inactive'}`}>
           Автоматизація
         </button>
       </div>
@@ -372,7 +370,7 @@ function App() {
           {devices.map(device => (
             <div key={device.id} className="device-card">
               <h3>{device.name}</h3>
-              <p style={{ fontSize: '12px', color: '#888', marginBottom: '15px' }}>Тип: {device.type}</p>
+              <p className="device-type-label">Тип: {device.type}</p>
               {renderDeviceControl(device)}
             </div>
           ))}
