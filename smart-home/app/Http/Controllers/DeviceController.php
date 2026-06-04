@@ -37,7 +37,6 @@ class DeviceController extends Controller
     {
         $device = Device::findOrFail($id);
         
-        // Получаем новое значение из React (например, цвет "#ff0000" или статус "on")
         $newValue = $request->input('value');
         
         $device->status = $newValue;
@@ -48,6 +47,8 @@ class DeviceController extends Controller
 
         // Сообщаем React по веб-сокетам, что статус изменился
         \App\Events\DeviceUpdated::dispatch($device);
+        // Проверяем сценарии автоматизации
+        \App\Models\Scenario::check($device);
 
         return response()->json($device);
     }

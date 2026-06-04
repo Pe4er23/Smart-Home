@@ -276,3 +276,17 @@ body {
 .ios-toggle.unlocked .ios-toggle-handle {
   transform: translateX(29px); 
 }
+
+.logout-btn {
+  background: transparent;
+  border: 1px solid #ad1616;
+  color: #ad1616;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    background-color: #ad1616;
+    color: white;
+  }
+}

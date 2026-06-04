@@ -37,6 +37,10 @@ class MqttListener extends Command
                     'value' => $message,
                 ]);
 
+                \App\Events\DeviceUpdated::dispatch($device);
+
+                \App\Models\Scenario::check($device);
+
                 DeviceUpdated::dispatch($device);
             }
         });
