@@ -4,7 +4,7 @@ import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
 import './App.css'
 
-// Настраиваем подключение к Laravel Reverb (WebSocket)
+// Налаштування підключення до Laravel Reverb (WebSocket)
 globalThis.Pusher = Pusher;
 const echo = new Echo({
   broadcaster: 'reverb',
@@ -58,11 +58,10 @@ function App() {
     }
     localStorage.removeItem('token');
     setToken('');
-    setDevices([]); // Очищаємо дані пристроїв з екрану
+    setDevices([]);
   };
 
   useEffect(() => {
-    // Якщо немає токена, зупиняємо завантаження і чекаємо логіна
     if (!token) {
       setLoading(false);
       return;
@@ -70,7 +69,6 @@ function App() {
 
     const fetchDevices = async () => {
       try {
-        // ДОДАЄМО ТОКЕН ДО ЗАПИТУ
         const response = await fetch('http://127.0.0.1:8000/api/devices', {
           headers: { 
             'Authorization': `Bearer ${token}`, 
@@ -78,7 +76,6 @@ function App() {
           }
         });
         
-        // Якщо токен застарів (Помилка 401)
         if (response.status === 401) {
             handleLogout();
             return;
@@ -103,7 +100,6 @@ function App() {
     return () => channel.stopListening('.device.updated');
   }, [token]); // Перезапускаємо `useEffect`, якщо токен зміниться
 
-  // ОБОВ'ЯЗКОВО ДОДАЄМО ТОКЕН В УСІ ЗАПИТИ КЕРУВАННЯ
   const toggleDevice = async (id) => {
     try {
       await fetch(`http://127.0.0.1:8000/api/devices/${id}/toggle`, {
@@ -121,12 +117,14 @@ function App() {
     }).catch(err => console.error("Помилка управління:", err));
   };
 
+  // Дебаунс для кольору та слайдера, щоб не спамити сервер при швидких змінах
   let colorTimeout;
   const handleColorChange = (id, color) => {
     clearTimeout(colorTimeout);
     colorTimeout = setTimeout(() => { updateDeviceState(id, color); }, 300);
   };
 
+  // Дебаунс для слайдера, щоб не спамити сервер при швидких змінах
   let sliderTimeout;
   const handleSliderChange = (id, value) => {
     setDevices(prev => prev.map(dev => dev.id === id ? { ...dev, status: value.toString() } : dev));
@@ -329,7 +327,6 @@ function App() {
 
   if (loading) return <div className="loading-screen">Завантаження...</div>
 
-  // МАЛЮЄМО ЕКРАН ВХОДУ, ЯКЩО НЕМАЄ ТОКЕНА
   if (!token) {
     return (
         <div className="login-container">
@@ -344,10 +341,8 @@ function App() {
     );
   }
 
-  // МАЛЮЄМО ГОЛОВНИЙ ЕКРАН (якщо токен є)
   return (
     <div className="dashboard">
-      {/* Шапка з кнопкою виходу */}
       <div className="dashboard-header">
         <h1 className="dashboard-title">Smart Home</h1>
         <button className="logout-btn" onClick={handleLogout}>
@@ -355,7 +350,6 @@ function App() {
         </button>
       </div>
       
-      {/* Вкладки */}
       <div className="tabs-container">
         <button onClick={() => setActiveTab('devices')} className={`tab-btn ${activeTab === 'devices' ? 'active' : 'inactive'}`}>
           Пристрої
@@ -376,7 +370,6 @@ function App() {
           ))}
         </div>
       ) : (
-        // ПЕРЕДАЄМО ТОКЕН У СЦЕНАРІЇ!
         <ScenariosManager devices={devices} token={token} /> 
       )}
     </div>

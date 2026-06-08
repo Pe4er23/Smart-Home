@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ScenarioController;
 
 // Маршрут: GET /api/devices
 
@@ -25,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/devices/{id}/history', [DeviceController::class, 'history']);
 
     // Сценарії
+    
     Route::get('/scenarios', [ScenarioController::class, 'index']);
     Route::post('/scenarios', [ScenarioController::class, 'store']);
     Route::delete('/scenarios/{id}', [ScenarioController::class, 'destroy']);

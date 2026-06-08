@@ -4,7 +4,7 @@ cd /d "%~dp0.."
 cd /d "smart-home"
 echo ======================================================
 echo WebSocket
-echo Команда запуска: php artisan serve
+echo Команда запуска: php artisan reverb:start
 echo ======================================================
 echo.
 

@@ -32,7 +32,6 @@ class DeviceController extends Controller
         return response()->json($device);
     }
 
-    // Новый универсальный метод управления
     public function updateState(Request $request, $id)
     {
         $device = Device::findOrFail($id);
@@ -53,6 +52,10 @@ class DeviceController extends Controller
         return response()->json($device);
     }
     
+    /* Был создан для построения графика изменения температуры 
+        но не работает библиотека Recharts в новых версиях React.
+        Ждать обновления?
+    */
     public function history($id)
     {
         $device = Device::findOrFail($id);
@@ -60,7 +63,7 @@ class DeviceController extends Controller
         // Получаем данные только за последние 6 часов
         $logs = $device->logs()
                        ->where('created_at', '>=', now()->subHours(6))
-                       ->orderBy('created_at', 'asc') // Сразу сортируем по времени (от старых к новым)
+                       ->orderBy('created_at', 'asc')
                        ->get();
 
         return response()->json($logs);

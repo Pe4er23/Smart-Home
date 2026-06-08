@@ -48,17 +48,28 @@ export default function ScenariosManager({ devices, token }) {
         e.preventDefault();
         fetch('http://127.0.0.1:8000/api/scenarios', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}` // ДОБАВЛЕН ТОКЕН
+            },
             body: JSON.stringify(formData)
         }).then(() => {
             fetchScenarios();
             setFormData({name: '', trigger_device_id: '', condition: '=', trigger_value: '', action_device_id: '', action_value: ''});
-        });
+        }).catch(err => console.error("Помилка створення:", err));
     };
 
     const deleteScenario = (id) => {
-        fetch(`http://127.0.0.1:8000/api/scenarios/${id}`, { method: 'DELETE' })
-            .then(() => fetchScenarios());
+        fetch(`http://127.0.0.1:8000/api/scenarios/${id}`, { 
+            method: 'DELETE',
+            headers: { 
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}` // ДОБАВЛЕН ТОКЕН
+            }
+        })
+        .then(() => fetchScenarios())
+        .catch(err => console.error("Помилка видалення:", err));
     };
 
     // ГЕНЕРАТОР ДИНАМІЧНИХ ПОЛІВ: Малює правильний інтерфейс залежно від типу пристрою
@@ -186,17 +197,21 @@ export default function ScenariosManager({ devices, token }) {
 
             <h3 style={{ color: '#aec2d3' }}>Активні сценарії:</h3>
             {scenarios.length === 0 && <p>Немає створених сценаріїв.</p>}
-            {scenarios.map(sc => (
-                <div key={sc.id} style={{ background: '#181a1b', border: '1px solid #414141', padding: '15px', borderRadius: '8px', marginBottom: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                        <strong style={{ fontSize: '18px', color: '#fff' }}>{sc.name}</strong>
-                        <p style={{ margin: '5px 0 0 0', fontSize: '14px', color: '#888' }}>
-                            Якщо <span style={{color: '#3b82f6'}}>{sc.trigger_device?.name}</span> {sc.condition} <b>{sc.trigger_value}</b> ➔ Тоді <span style={{color: '#1ebb57'}}>{sc.action_device?.name}</span> = <b>{sc.action_value}</b>
-                        </p>
+            {Array.isArray(scenarios) ? (
+                scenarios.map(sc => (
+                    <div key={sc.id} style={{ background: '#181a1b', border: '1px solid #414141', padding: '15px', borderRadius: '8px', marginBottom: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <strong style={{ fontSize: '18px', color: '#fff' }}>{sc.name}</strong>
+                            <p style={{ margin: '5px 0 0 0', fontSize: '14px', color: '#888' }}>
+                                Якщо <span style={{color: '#3b82f6'}}>{sc.trigger_device?.name}</span> {sc.condition} <b>{sc.trigger_value}</b> ➔ Тоді <span style={{color: '#1ebb57'}}>{sc.action_device?.name}</span> = <b>{sc.action_value}</b>
+                            </p>
+                        </div>
+                        <button onClick={() => deleteScenario(sc.id)} style={{ background: '#ad1616', color: '#fff', border: 'none', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer' }}>Видалити</button>
                     </div>
-                    <button onClick={() => deleteScenario(sc.id)} style={{ background: '#ad1616', color: '#fff', border: 'none', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer' }}>Видалити</button>
-                </div>
-            ))}
+                ))
+            ) : (
+                <p>Помилка завантаження сценаріїв з сервера.</p>
+            )}
         </div>
     );
 }
