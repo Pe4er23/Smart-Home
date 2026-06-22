@@ -13,11 +13,11 @@ return new class extends Migration
 {
     Schema::create('devices', function (Blueprint $table) {
         $table->id();
-        $table->string('name'); // Название (например, "Лампа на кухне")
-        $table->string('type'); // Тип устройства (sensor, relay и т.д.)
-        $table->string('mqtt_topic')->unique(); // Уникальный топик для общения по MQTT
-        $table->string('status')->default('offline'); // Текущий статус (on, off, 25.5, offline)
-        $table->timestamps(); // Время создания и последнего обновления
+        $table->string('name'); // Назва (наприклад, "Лампа на кухні")
+        $table->string('type'); // Тип приладу (sensor, relay і т.д.)
+        $table->string('mqtt_topic')->unique(); // Унікальний топік для спілкування по MQTT
+        $table->string('status')->default('offline'); // Поточний статус (on, off, 25.5, offline)
+        $table->timestamps(); // Час створення та останнього оновлення
     });
 }
 

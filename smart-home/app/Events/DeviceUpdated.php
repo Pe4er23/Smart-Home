@@ -15,13 +15,13 @@ class DeviceUpdated implements ShouldBroadcastNow
 
     public $device;
 
-    // Передаем обновленное устройство в событие
+    // Передаємо оновлений пристрій у подію
     public function __construct(Device $device)
     {
         $this->device = $device;
     }
 
-    // Указываем канал, по которому React будет слушать обновления
+    // Указуємо канал, по якому React буде слухати оновлення
     public function broadcastOn(): array
     {
         return [
@@ -29,7 +29,7 @@ class DeviceUpdated implements ShouldBroadcastNow
         ];
     }
     
-    // Название события для React
+    // Назва події для React
     public function broadcastAs(): string
     {
         return 'device.updated';

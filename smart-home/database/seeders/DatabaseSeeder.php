@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Вызываем наш сидер устройств
+        // Викликаємо наш сидер пристроїв
         $this->call([
             DeviceSeeder::class,
         ]);

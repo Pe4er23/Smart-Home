@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('sensor_logs', function (Blueprint $table) {
             $table->id();
-            // Связываем с устройством. onDelete('cascade') удалит историю, если удалить сам датчик
+            // Зв'язуємо з пристроєм. onDelete('cascade') видалить історію, якщо видалити сам датчик
             $table->foreignId('device_id')->constrained('devices')->onDelete('cascade');
-            $table->string('value'); // Сама цифра температуры
-            $table->timestamps(); // Автоматически создаст колонки created_at и updated_at
+            $table->string('value'); // Сама цифра температури
+            $table->timestamps(); // Автоматично створить колонки created_at та updated_at
         });
     }
 

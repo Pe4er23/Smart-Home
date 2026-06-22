@@ -17,10 +17,10 @@ class MqttListener extends Command
     {
         $this->info("Запуск слушателя MQTT...");
 
-        // 1. Получаем объект подключения
+        // 1. Отримуємо об'єкт підключення до MQTT брокера
         $mqtt = MQTT::connection();
 
-        // 2. Вызываем subscribe у объекта подключения
+        // 2. Підписуємося на всі топіки, що починаються з "home/"
         $mqtt->subscribe('home/#', function (string $topic, string $message) {
             
             $this->info("Отримано дані: [$topic] -> $message");
@@ -45,7 +45,7 @@ class MqttListener extends Command
             }
         });
 
-        // 3. Вызываем loop у объекта подключения
+        // 3. Викликаємо loop у об'єкта підключення
         $mqtt->loop(true);
     }
 }

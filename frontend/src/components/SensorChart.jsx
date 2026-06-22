@@ -1,9 +1,8 @@
-/*  ВАЖНО 
+/*  ВАЖЛИВО
 
-    Этот скрипт не используется по причине
-    несовместимости с React 19 и его новым механизмом рендеринга.
-    Я оставил его в проекте для демонстрации того, как можно было бы реализовать
-    график с помощью Recharts и WebSockets, если бы не было этих ограничений.
+    Цей скрипт не використовується через несумісність з React 19 та його новим механізмом рендерингу.
+    Я залишив його в проекті для демонстрації того, як можна було б реалізувати
+    графік за допомогою Recharts та WebSockets, якби не було цих обмежень.
 */
 
 import { useEffect, useState } from 'react';
@@ -13,7 +12,7 @@ export default function SensorChart({ deviceId, currentStatus }) {
     const [chartData, setChartData] = useState([]);
 
     useEffect(() => {
-        // Запрос истории (бэкенд возвращает данные за последние 6 часов)
+        // Запрос історії (бекенд повертає дані за останні 6 годин)
         fetch(`http://127.0.0.1:8000/api/devices/${deviceId}/history`)
             .then(res => res.json())
             .then(data => {
@@ -27,20 +26,20 @@ export default function SensorChart({ deviceId, currentStatus }) {
 
                     return {
                         time: timeString,
-                        value: parseFloat(item.value) || 0 // Гарантируем, что это число
+                        value: Number.parseFloat(item.value) || 0 // Гарантуємо, що це число
                     };
                 });
                 
                 setChartData(formattedData);
             })
             .catch(err => console.error("Помилка завантаження історії:", err));
-    }, [deviceId, currentStatus]); // Следим за изменением ID и статуса из WebSockets
+    }, [deviceId, currentStatus]);// Слідкуємо за зміною ID та статусу з WebSockets
 
     if (chartData.length === 0) {
         return <p style={{ fontSize: '12px', color: '#86868b', marginTop: '15px' }}>Немає даних для графіка...</p>;
     }
 
-    // Железобетонный ручной расчет масштаба оси Y
+    // Залізобетонний ручний розрахунок масштабу осі Y
     const tempValues = chartData.map(d => d.value);
     const minTemp = Math.floor(Math.min(...tempValues)) - 1;
     const maxTemp = Math.ceil(Math.max(...tempValues)) + 1;
@@ -51,13 +50,13 @@ export default function SensorChart({ deviceId, currentStatus }) {
                 width={310} 
                 height={200} 
                 data={chartData} 
-                // Отступы подобраны так, чтобы цифры слева (Y) и снизу (X) не вылезали за карту
+                // Відступи підібрані так, щоб цифри зліва (Y) та знизу (X) не вилізали за межі карти
                 margin={{ top: 10, right: 15, bottom: 15, left: -20 }}
             >
                 {/* Горизонтальная сетка для наглядности изменений */}
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#efefef" />
                 
-                {/* Ось X — Время получения данных */}
+                {/* Вісь X — Час отримання даних */}
                 <XAxis 
                     dataKey="time" 
                     tick={{ fontSize: 10, fill: '#86868b' }} 
@@ -65,7 +64,7 @@ export default function SensorChart({ deviceId, currentStatus }) {
                     tickLine={false}
                 />
                 
-                {/* Ось Y — Градусы. Всегда слева, с фиксированной шириной и вычисленным диапазоном */}
+                {/* Вісь Y — Градуси. Завжди зліва, з фіксованою шириною та обчисленим діапазоном */}
                 <YAxis 
                     tick={{ fontSize: 11, fill: '#86868b' }} 
                     width={40}
@@ -74,12 +73,12 @@ export default function SensorChart({ deviceId, currentStatus }) {
                     axisInterval={0}
                 />
                 
-                {/* Всплывающая подсказка при наведении на точку */}
+                {/* Підказка під час наведення на точку */}
                 <Tooltip 
                     contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', backgroundColor: '#fff' }}
                 />
                 
-                {/* Сама линия графика */}
+                {/* Сама лінія графику */}
                 <Line 
                     type="monotone" 
                     dataKey="value" 
@@ -87,7 +86,7 @@ export default function SensorChart({ deviceId, currentStatus }) {
                     strokeWidth={3} 
                     dot={{ r: 4, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }} 
                     activeDot={{ r: 6 }}
-                    isAnimationActive={false} // Отключаем анимацию для предотвращения конфликтов в React 19
+                    isAnimationActive={false} // Вимикаємо анімацію для запобігання конфліктам
                 />
             </LineChart>
         </div>

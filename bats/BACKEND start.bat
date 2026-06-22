@@ -4,7 +4,7 @@ cd /d "%~dp0.."
 cd /d "smart-home"
 echo ======================================================
 echo BACKEND
-echo Команда запуска: php artisan serve
+echo Команда запуску: php artisan serve
 echo ======================================================
 echo.
 

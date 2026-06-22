@@ -12,7 +12,7 @@ class DeviceSeeder extends Seeder
      */
     public function run(): void
     {
-        // Создаем Умную лампу на кухне
+        // Розумна лампа на кухні
         Device::create([
             'name' => 'Лампа на кухні',
             'type' => 'relay',
@@ -20,7 +20,7 @@ class DeviceSeeder extends Seeder
             'status' => 'off',
         ]);
 
-        // Создаем Датчик температуры в гостиной
+        // Датчик температури в гостинній
         Device::create([
             'name' => 'Датчик температури у вітальні',
             'type' => 'sensor',

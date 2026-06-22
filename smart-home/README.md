@@ -17,3 +17,17 @@ php artisan serve
 .\mosquitto_sub.exe -h localhost -t "home/kitchen/lamp"
 ```
 
+## Mosquitto commands
+
+** Start local lamp
+```bash
+.\mosquitto_sub.exe -h localhost -t "home/kitchen/lamp
+```
+** Change lamp status
+```bash
+.\mosquitto_pub.exe -h localhost -t "home/kitchen/lamp" -m "on"
+```
+** Change temperature
+```bash
+.\mosquitto_pub.exe -h localhost -t "home/livingroom/temp" -m "26.8"
+```

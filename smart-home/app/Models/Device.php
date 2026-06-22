@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Device extends Model
 {
-    // Разрешаем массовое заполнение этих полей
+    // Дозволяємо масове заповнення цих полів
     protected $fillable = [
         'name',
         'type',

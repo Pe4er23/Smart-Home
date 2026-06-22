@@ -4,7 +4,7 @@ cd /d "%~dp0.."
 cd /d "smart-home"
 echo ======================================================
 echo MQTT Listener
-echo Команда запуска: php artisan mqtt:listen
+echo Команда запуску: php artisan mqtt:listen
 echo ======================================================
 echo.
 

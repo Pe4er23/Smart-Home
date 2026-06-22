@@ -66,7 +66,6 @@ body {
   }
 }
 
-/* Універсальні кнопки управління */
 .control-btn {
   padding: 10px 20px;
   border: none;
@@ -105,7 +104,6 @@ body {
   }
 }
 
-/* Кнопки Вкл/Выкл (Relay) */
 .toggle-btn {
   width: 100%;
   padding: 12px;
@@ -140,8 +138,6 @@ body {
 }
 
 
-
-/* Слайдер штор (Blinds) */
 .blinds-slider {
   width: 100%;
   -webkit-appearance: none;
@@ -171,7 +167,6 @@ body {
   }
 }
 
-/* Перемикач для дверей (Lock/Slider) */
 .lock-slider-container {
   width: 100px;
   height: 40px;
@@ -222,7 +217,7 @@ body {
   box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
 }
 
-/* Додаткові стилі для LED */
+
 .led-on {
   background-color: #22c55e !important;
 }
@@ -237,11 +232,10 @@ body {
 }
 
 
-/* Перемикач для дверей в стиле iOS (Lock/Toggle) */
 .ios-toggle {
   width: 65px;
   height: 36px;
-  background-color: #181a1b; /* Темный фон для заблокировано */
+  background-color: #181a1b; 
   border-radius: 36px;
   position: relative;
   cursor: pointer;
@@ -252,7 +246,7 @@ body {
 }
 
 .ios-toggle.unlocked {
-  background-color: #1ebb57; /* Зеленый для разблокировано */
+  background-color: #1ebb57; 
   border-color: #1ebb57;
 }
 
@@ -272,7 +266,6 @@ body {
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
-/* Двигаем белый кружок вправо, если открыто */
 .ios-toggle.unlocked .ios-toggle-handle {
   transform: translateX(29px); 
 }

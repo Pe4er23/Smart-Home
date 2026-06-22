@@ -27,10 +27,10 @@ class Scenario extends Model
         return $this->belongsTo(Device::class, 'action_device_id');
     }
 
-    // МЕХАНИЗМ АВТОМАТИЗАЦИИ
+    // МЕХАНІЗМ АВТОМАТИЗАЦІЇ
     public static function check(Device $triggerDevice)
     {
-        // Ищем все активные сценарии, где это устройство является триггером
+        // Шукаємо всі активні сценарії, де цей пристрій є тригером
         $scenarios = self::where('trigger_device_id', $triggerDevice->id)
                          ->where('is_active', true)
                          ->get();
@@ -40,7 +40,7 @@ class Scenario extends Model
             $currentVal = $triggerDevice->status;
             $targetVal = $scenario->trigger_value;
 
-            // Проверяем условие
+            // Перевіряємо умову
             switch ($scenario->condition) {
                 case '=':
                     $isTriggered = ($currentVal == $targetVal);
@@ -56,19 +56,19 @@ class Scenario extends Model
                     break;
             }
 
-            // Если условие выполнилось, запускаем действие
+            // Якщо умова виконалась, запускаємо дію
             if ($isTriggered) {
                 $actionDevice = $scenario->actionDevice;
                 
-                // Защита от бесконечных циклов: отправляем команду только если статус реально нужно изменить
+                // Захист від безкінечних циклів: відправляємо команду тільки якщо статус реально потрібно змінити
                 if ($actionDevice->status != $scenario->action_value) {
                     $actionDevice->status = $scenario->action_value;
                     $actionDevice->save();
                     
-                    // Отправляем команду физическому устройству через MQTT
+                    // Відправляємо команду фізичному пристрою через MQTT
                     MQTT::publish($actionDevice->mqtt_topic, $scenario->action_value);
                     
-                    // Мгновенно обновляем интерфейс React через веб-сокеты
+                    // Миттєво оновлюємо інтерфейс React через веб-сокети
                     \App\Events\DeviceUpdated::dispatch($actionDevice);
                 }
             }

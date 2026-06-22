@@ -1,11 +1,11 @@
 @echo off
 chcp 65001 > nul
 echo ======================================================
-echo Нужен брокер Mosquitto
-echo Команда запуска из коренной папки: .\mosquitto_sub.exe -h localhost -t "home/kitchen/lamp"
-echo Либо команда: start
-echo Нужно переместится в коренную папку с помощью команды "cd "
-echo Переместится в дефолтную папку: default
+echo Потрібен брокер Mosquitto
+echo Команда запуску з корінної папки: .\mosquitto_sub.exe -h localhost -t "home/kitchen/lamp"
+echo Або команда: start
+echo Потрібно переміститися до корінної папки за допомогою команди "cd "
+echo Переміститься до дефолтної папки: default
 echo ======================================================
 echo.
 
@@ -17,7 +17,7 @@ if /i "%user_cmd%"=="start" (
     goto loop
 )
 if /i "%user_cmd%"=="default" (
-	cd /d "D:\Mosquitto"
+	cd /d "..\Mosquitto"
 	goto loop
 )
 if /i "%user_cmd%"=="exit" (

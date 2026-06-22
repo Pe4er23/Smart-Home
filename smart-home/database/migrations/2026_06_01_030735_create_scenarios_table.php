@@ -15,16 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             
-            // ТРИГГЕР (ЕСЛИ)
+            // ТРИГГЕР (ЯКЩО)
             $table->foreignId('trigger_device_id')->constrained('devices')->onDelete('cascade');
-            $table->string('condition'); // Условие: '=', '>', '<'
-            $table->string('trigger_value'); // При каком значении сработает
+            $table->string('condition'); // Умова: '=', '>', '<'
+            $table->string('trigger_value'); // При якому значенні спрацює
             
-            // ДЕЙСТВИЕ (ТО)
+            // ДІЯ (ТО)
             $table->foreignId('action_device_id')->constrained('devices')->onDelete('cascade');
-            $table->string('action_value'); // Какую команду отправить
+            $table->string('action_value'); // Яку команду відправити
             
-            $table->boolean('is_active')->default(true); // Включен ли сценарий
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

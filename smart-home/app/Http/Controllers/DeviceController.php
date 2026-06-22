@@ -25,7 +25,7 @@ class DeviceController extends Controller
             
             MQTT::publish($device->mqtt_topic, $device->status);
             
-            // Отправляем событие по WebSocket
+            // Відправляємо подію по WebSocket
             DeviceUpdated::dispatch($device);
         }
         
@@ -41,26 +41,27 @@ class DeviceController extends Controller
         $device->status = $newValue;
         $device->save();
 
-        // Отправляем это значение в Mosquitto
+        // Відправляємо це значення в Mosquitto
         MQTT::publish($device->mqtt_topic, $newValue);
 
-        // Сообщаем React по веб-сокетам, что статус изменился
+        // Повідомляємо React по веб-сокетам, що статус змінився
         \App\Events\DeviceUpdated::dispatch($device);
-        // Проверяем сценарии автоматизации
+        // Перевіряємо сценарії автоматизації
         \App\Models\Scenario::check($device);
 
         return response()->json($device);
     }
     
-    /* Был создан для построения графика изменения температуры 
-        но не работает библиотека Recharts в новых версиях React.
-        Ждать обновления?
+    /*
+        Був створений для побудови графіка зміни температури,
+        але не працює бібліотека Recharts в нових версіях React.
+        Чекати оновлення?
     */
     public function history($id)
     {
         $device = Device::findOrFail($id);
 
-        // Получаем данные только за последние 6 часов
+        // Отримуємо дані тільки за останні 6 годин
         $logs = $device->logs()
                        ->where('created_at', '>=', now()->subHours(6))
                        ->orderBy('created_at', 'asc')
